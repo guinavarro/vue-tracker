@@ -6,9 +6,10 @@ class="columns is-gapless is-multiline"
     <SidebarComponent @toThemeChanged="changeTheme"/>
   </div>
   <div class="column is-three-quarter content">
-    <FormComponent/>
+    <FormComponent @toSaveTask="saveTask"/>
     <div class="list">
-      <BoxComponent>
+      <TaskComponent v-for="(task, index) in tasks" :key="index" :task="task"/>
+      <BoxComponent v-if="isTasksEmpty">
         You aren't so productive today :(
       </BoxComponent>
     </div>
@@ -21,20 +22,33 @@ import { defineComponent } from 'vue';
 import BoxComponent from './components/BoxComponent.vue';
 import FormComponent from './components/FormComponent.vue';
 import SidebarComponent from './components/SidebarComponent.vue';
+import TaskComponent from './components/TaskComponent.vue';
+
+import ITask from './interfaces/ITask'
 
 export default defineComponent({
   name: 'App',
   components: {
     BoxComponent,
     SidebarComponent,
-    FormComponent
+    FormComponent,
+    TaskComponent 
   },
   data(){
     return{
-      darkModeOn: false
+      darkModeOn: false,
+      tasks: [] as ITask[]
     }
   },
+  computed: {
+      isTasksEmpty () : boolean {
+        return this.tasks.length === 0
+      }
+  },
   methods: {
+    saveTask(task: ITask){
+      this.tasks.push(task)
+    },
     changeTheme(darkModeOn: boolean){
       this.darkModeOn = darkModeOn
     }

@@ -8,7 +8,9 @@
                 placeholder="What task do you want to start?"
                 v-model="description">                
             </div>
-            <div class="column"></div>
+            <div class="column">
+                <TimerComponent @toTimerFinishe="finishTask"/>
+            </div>
         </div>
     </div>
 </template>
@@ -16,11 +18,26 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 
+import TimerComponent from './TimerComponent.vue';
+
 export default defineComponent({
     name: 'FormComponent',
+    emits: ['toSaveTask'],
+    components: {
+        TimerComponent
+    },
     data () {
         return {
             description: ''
+        }
+    },
+    methods: {
+        finishTask(elapsedTime : number) : void {
+            this.$emit('toSaveTask', {
+                timeInSeconds: elapsedTime,
+                description: this.description
+            })
+            this.description = ''
         }
     }
 })
