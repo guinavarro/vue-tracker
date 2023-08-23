@@ -1,12 +1,13 @@
 <template>
    <button
    class="button"
+   :class="buttonClass"
    :disabled="isDisabled"
    @click="buttonClicked">
    <span class="icon">
     <i :class="buttonIcon"></i>
    </span>
-   <span>{{  buttonName }}</span>
+   <span v-if="buttonName.length > 0">{{  buttonName }}</span>
     </button>
 </template>
 
@@ -28,6 +29,10 @@ export default defineComponent({
         isDisabled: {
             type: Boolean,
             default: false
+        },
+        buttonClass: {
+            type: String,
+            default: ''
         }
     },
     methods: {

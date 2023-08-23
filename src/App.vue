@@ -8,7 +8,11 @@ class="columns is-gapless is-multiline"
   <div class="column is-three-quarter content">
     <FormComponent @toSaveTask="saveTask"/>
     <div class="list">
-      <TaskComponent v-for="(task, index) in tasks" :key="index" :task="task"/>
+      <TaskComponent 
+      v-for="(task, index) in tasks" 
+      :key="index" 
+      :task="task"
+      @taskRemoved="handleTaskRemoved(index)"/>
       <BoxComponent v-if="isTasksEmpty">
         You aren't so productive today :(
       </BoxComponent>
@@ -51,6 +55,9 @@ export default defineComponent({
     },
     changeTheme(darkModeOn: boolean){
       this.darkModeOn = darkModeOn
+    },
+    handleTaskRemoved(index: number){
+      this.tasks.splice(index, 1);
     }
   }
 });
