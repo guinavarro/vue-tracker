@@ -3,26 +3,46 @@
         <h1>
             <img src="../assets/logo.png">
         </h1>
-        <button class="button" @click="changeTheme">
-            {{ buttonText }}
-        </button>
+        <div class="has-text-centere">
+            <button class="button" @click="changeTheme">
+                {{ buttonText }}
+            </button>
+        </div>
+        <nav class="panel mt-5">
+            <ul>
+                <li>
+                    <router-link to="/" class="link">
+                        <i class="fas fa-tasks">
+                            tasks
+                        </i>
+                    </router-link>
+                </li>
+                <li>
+                    <router-link to="/projects" class="link">
+                        <i class="fas fa-project-diagram">
+                            projects
+                        </i>
+                    </router-link>
+                </li>
+            </ul>
+        </nav>
     </header>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
     name: 'SidebarComponent',
     emits: ['toThemeChanged'],
-    data(){
+    data() {
         return {
             darkModeOn: false
         }
     },
     computed: {
         buttonText() {
-            if(this.darkModeOn){
+            if (this.darkModeOn) {
                 return 'Disable Dark Mode'
             }
 
@@ -30,26 +50,42 @@ export default defineComponent({
         }
     },
     methods: {
-        changeTheme(){
+        changeTheme() {
             this.darkModeOn = !this.darkModeOn
             this.$emit('toThemeChanged', this.darkModeOn)
         }
-    } 
+    }
 })
 </script>
 
 <style scoped>
 header {
-  padding: 1rem;
-  background: #0d3b66;
-  width: 100%;
-  height: 100vh;
-  text-align: center;
+    padding: 1rem;
+    background: #0d3b66;
+    width: 100%;
+    height: 100vh;
+    text-align: center;
 }
+
 @media only screen and (max-width: 768px) {
-  header {
-    padding: 2.5rem;
-    height: auto;
-  }
+    header {
+        padding: 2.5rem;
+        height: auto;
+    }
 }
-</style>
+
+.panel li {
+    margin: 8px 0;
+}
+
+.link {
+    color: #fff;
+}
+
+.link:hover {
+    color: #FAF0CA;
+}
+
+.link.router-link-active {
+    color: #FAF0CA;
+}</style>
