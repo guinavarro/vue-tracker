@@ -9,7 +9,7 @@
                 v-model="description">                
             </div>
             <div class="column">
-                <TimerComponent @toTimerFinishe="finishTask"/>
+                <TimerComponent @toTimerFinished="finishTask"/>
             </div>
         </div>
     </div>
