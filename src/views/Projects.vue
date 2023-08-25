@@ -1,70 +1,16 @@
 <template>
-    <section class="projects">
+    <div class="projects">
         <h1 class="title">Projects</h1>
-        <form @submit.prevent="salvar">
-            <div class="field">
-                <label for="projectName" class="label">
-                    Project's Name
-                </label>
-                <input type="text" class="input" v-model="projectName" id="projectName">
-            </div>
-            <div class="field">
-                <button class="button is-success" type="submit">
-                    Save
-                </button>
-            </div>
-        </form>
-        <table class="table is-fullwidth">
-            <thead>
-                <tr>
-                    <th>
-                        Id
-                    </th>
-                    <th>
-                        Name
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="project in projects" :key="project.id">
-                    <td>
-                        {{ project.id }}
-                    </td>
-                    <td>
-                        {{ project.name }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
+        <router-view></router-view>
+    </div>
 </template>
 
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import IProject from "../interfaces/IProject";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-    name: 'Projects',
-    data() {
-        return {
-            projectName: '',
-            projects: [] as IProject[]
-        }
-    },
-    methods: {
-        salvar() {
-            const project: IProject = {
-                name: this.projectName,
-                id: new Date()
-                    .toISOString()
-                    .replace(/\D/g, "")
-            }
-
-            this.projects.push(project)
-            this.projectName = ''
-        }
-    }
+    name: 'Project'
 })
 </script>
 

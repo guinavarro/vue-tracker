@@ -2,38 +2,36 @@
     <header>
         <h1>
             <img src="../assets/logo.png">
-        </h1>
-        <div class="has-text-centere">
-            <button class="button" @click="changeTheme">
-                {{ buttonText }}
-            </button>
-        </div>
+        </h1>       
         <nav class="panel mt-5">
             <ul>
                 <li>
                     <router-link to="/" class="link">
-                        <i class="fas fa-tasks">
-                            tasks
-                        </i>
+                        tasks
                     </router-link>
                 </li>
                 <li>
                     <router-link to="/projects" class="link">
-                        <i class="fas fa-project-diagram">
-                            projects
-                        </i>
+                        projects
                     </router-link>
                 </li>
             </ul>
         </nav>
+        <SwitchComponent 
+        @switched="changeTheme"
+        :switchName="buttonText"/>
     </header>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import  SwitchComponent  from './SwitchComponent.vue'
 
 export default defineComponent({
     name: 'SidebarComponent',
+    components: {
+        SwitchComponent
+    },
     emits: ['toThemeChanged'],
     data() {
         return {
@@ -83,9 +81,9 @@ header {
 }
 
 .link:hover {
-    color: #FAF0CA;
+    color: #00d1b2;
 }
 
 .link.router-link-active {
-    color: #FAF0CA;
+    color: #00d1b2;
 }</style>
