@@ -3,6 +3,7 @@
     <div class="column is-one-quarter">
       <SidebarComponent @toThemeChanged="changeTheme" />
     </div>
+    <NotificationComponent/>
     <div class="column is-three-quarter content">
     <router-view></router-view>
     </div>
@@ -12,11 +13,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import SidebarComponent from './components/SidebarComponent.vue';
+import NotificationComponent from './components/NotificationComponent.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
     SidebarComponent,
+    NotificationComponent
   },
   data() {
     return {

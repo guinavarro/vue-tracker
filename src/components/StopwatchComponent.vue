@@ -1,6 +1,7 @@
 <template>
-<section>
+<section>    
     <strong class="display">
+        <i class="far fa-clock"></i>
         {{ elapsedTime }}
     </strong>
 </section>
