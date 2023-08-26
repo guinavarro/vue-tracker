@@ -13,12 +13,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 import BoxComponent from '../components/BoxComponent.vue';
 import FormComponent from '../components/FormComponent.vue';
 import TaskComponent from '../components/TaskComponent.vue';
+import { ADD_TASK, REMOVE_TASK } from '@/store/mutations-type';
 
 import ITask from '../interfaces/ITask'
+import { useStore } from '@/store';
 
 export default defineComponent({
   name: 'TrackerComponent',
@@ -29,10 +31,17 @@ export default defineComponent({
   },
   data(){
     return{
-      darkModeOn: false,
-      tasks: [] as ITask[]
+      darkModeOn: false
+     
     }
   },
+  setup() {
+    const store = useStore()
+    return {
+      tasks: computed(() => store.state.tasks),
+      store
+    }
+  }, 
   computed: {
       isTasksEmpty () : boolean {
         return this.tasks.length === 0
@@ -40,13 +49,14 @@ export default defineComponent({
   },
   methods: {
     saveTask(task: ITask){
-      this.tasks.push(task)
+      this.store.commit(ADD_TASK, task)
     },
     changeTheme(darkModeOn: boolean){
       this.darkModeOn = darkModeOn
     },
     handleTaskRemoved(index: number){
-      this.tasks.splice(index, 1);
+      let task = this.tasks[index]
+      this.store.commit(REMOVE_TASK, task)
     }
   }
 });
