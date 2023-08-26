@@ -15,6 +15,11 @@
                         projects
                     </router-link>
                 </li>
+                <li>
+                    <router-link to="/pomodoro" class="link">
+                        pomodoro
+                    </router-link>
+                </li>
             </ul>
         </nav>
         <SwitchComponent 

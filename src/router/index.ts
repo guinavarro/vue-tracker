@@ -4,6 +4,7 @@ import Tasks from '../views/Tasks.vue'
 import Projects from '../views/Projects.vue'
 import Form from '../views/Projects/Form.vue'
 import List from '../views/Projects/List.vue'
+import Pomodoro from "@/views/Pomodoro.vue"
 
 const routes: RouteRecordRaw[] = [
     {
@@ -32,6 +33,12 @@ const routes: RouteRecordRaw[] = [
                 props: true
             }
         ]
+    },
+    {
+        path: '/pomodoro',
+        name: 'Pomodoro',
+        component: Pomodoro
+
     }
 ]
 
