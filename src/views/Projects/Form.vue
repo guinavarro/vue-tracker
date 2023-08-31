@@ -16,12 +16,12 @@
     </section>
 </template>
 
-
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useStore } from "@/store";
-import { EDIT_PROJECT, ADD_PROJECT } from "@/store/mutations-type";
 import { NotificationType } from "@/interfaces/INotification";
+
+import { EDIT_PROJECT, ADD_PROJECT } from "@/store/actions-type";
 
 import useNotifier from '@/hooks/notifier'
 
@@ -46,14 +46,18 @@ export default defineComponent({
     methods: {
         salvar() {
             if (this.id) {
-                this.store.commit(EDIT_PROJECT, {
+                this.store.dispatch(EDIT_PROJECT, {
                     id: this.id,
                     name: this.projectName
-                })
+                }).then(() => this.successHandler());
             } else {
-                this.store.commit(ADD_PROJECT, this.projectName);
+                this.store.dispatch(ADD_PROJECT, this.projectName)
+                    .then(() => this.successHandler());
             }
-            this.projectName = '';    
+
+        },
+        successHandler() {
+            this.projectName = '';
             this.notificate(NotificationType.SUCCESS, "Success!", "Your new project is ready to use :)")
             this.$router.push('/projects');
         }

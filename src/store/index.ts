@@ -1,9 +1,11 @@
 import IProject from "@/interfaces/IProject";
 import { InjectionKey } from "vue";
 import { Store, createStore, useStore as vuexUseStore } from "vuex";
-import { ADD_PROJECT, ADD_TASK, EDIT_PROJECT, NOTIFICATE, REMOVE_PROJECT, REMOVE_TASK } from "./mutations-type";
+import { ADD_PROJECT, ADD_TASK, EDIT_PROJECT, NOTIFICATE, REMOVE_PROJECT, REMOVE_TASK, SET_PROJECTS } from "./mutations-type";
 import ITask from "@/interfaces/ITask";
 import { INotification } from "@/interfaces/INotification";
+import { GET_PROJECTS } from "./actions-type";
+import httpClient from "@/http";
 
 interface State {
     projects: IProject[],
@@ -34,6 +36,9 @@ export const store = createStore<State>({
         [REMOVE_PROJECT](state, id: string) {            
             state.projects = state.projects.filter(x => x.id != id)
         },
+        [SET_PROJECTS](state, projects: IProject[]) {            
+           state.projects = projects
+        },
         [ADD_TASK](state, task: ITask) {
             state.tasks.push(task)
         },
@@ -48,6 +53,24 @@ export const store = createStore<State>({
             setTimeout(() => {
                 state.notifications = state.notifications.filter(x => x.id != newNotification.id)
             }, 2500)
+        }
+    },
+    actions:  {
+        [GET_PROJECTS] ({ commit}) {
+            httpClient.get('projects')
+                .then(response => commit(SET_PROJECTS, response.data))
+        },
+        [ADD_PROJECT](context, projectName: string) {
+            return httpClient.post('/projects', {
+                name: projectName
+            })
+        },
+        [EDIT_PROJECT](context, project: IProject){
+            return httpClient.put(`/projects/${project.id}`, project)
+        },
+        [REMOVE_PROJECT]({commit}, id: string){
+            return httpClient.delete(`/projects/${id}`)
+                .then(() => commit (REMOVE_PROJECT, id))
         }
     }
 })
