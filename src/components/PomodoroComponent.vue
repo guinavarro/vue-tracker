@@ -6,7 +6,7 @@
         <div class="column">
             <button v-if="!pomodoroIsRunning" class="button is-medium" @click="start">{{ pomodoroButton }}</button>
             <button v-else class="button is-medium" @click="stop">Stop</button>            
-            <i v-if="pomodoroIsRunning" class="fa-solid fa-play"></i>
+            <!-- <i v-if="pomodoroIsRunning" class="fa-solid fa-play"></i> -->
         </div>
         <div class="column">
         </div>
@@ -19,12 +19,17 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
     name: 'PomodoroComponent',
-    
     data() {
         return {
-            pomodoroTimer: 25,
             timer: 0,
-            pomodoroIsRunning: false
+            pomodoroIsRunning: false,
+            localPomodoroTimer: this.pomodoroTimer
+        }
+    },
+    props:{
+        pomodoroTimer: {
+            type: Number,
+            default: 25
         }
     },
     computed: {
@@ -32,7 +37,7 @@ export default defineComponent({
             return 'Start';
         },
         elapsedTime(): string {
-            return new Date(this.pomodoroTimer * 60000)
+            return new Date(this.localPomodoroTimer * 60000)
             .toLocaleTimeString()
             .substr(3, 5)
         }
@@ -41,7 +46,7 @@ export default defineComponent({
         start() {
             this.pomodoroIsRunning = true
             this.timer = setInterval(() => {
-                this.pomodoroTimer -= 0.01
+                this.localPomodoroTimer -= 0.01
                 if (this.pomodoroTimer <= 0){
                     clearInterval(this.timer)
                     this.pomodoroIsRunning = false
@@ -51,6 +56,11 @@ export default defineComponent({
         stop() {
             this.pomodoroIsRunning = false
             clearInterval(this.timer)
+        }
+    },
+    watch: {
+        elapsedTime(newElapsedTime){
+            document.title = newElapsedTime
         }
     }
 })
